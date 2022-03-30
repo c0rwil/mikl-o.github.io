@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<!-- 
+NAME: Carlos Corral-Williams
+ 
+ 
+-->
+
+<html lang = "en">
+   <head>
+      <title>HW4 D3</title>
+	  
+	  <!-- This loads the D3 library -->
+      <script src = "https://d3js.org/d3.v4.min.js"></script>
+	  
+      <style>
+         body { font-family: Times New Roman; }
+		 
+		 svg text { fill: black;
+					font: 12px Times New Roman;
+					text-anchor: end;
+				  }
+      </style>
+   </head>
+
+   <body>
+   
+   <h1>Demonstration of D3 and dynamic webpages by </h1>
+   
+   <h2 id="part1a">
+	My name is
+   </h2>
+   
+   
+   <h3>Part 1: Demonstrate modifications of the DOM</h3>
+   
+   </br>
+   
+   <div id="part1b"></div>
+   
+   </br>
+   
+   <p1>My classes this semester were:</p1>
+   <ul class="styled" id="part1c"></ul>
+   
+   
+ 
+   
+   <h3>Part 2: Demonstrate modifications of SVG graphics</h3>
+   
+		
+		<p id="status"></p>
+		
+		<!-- container to hold svg image -->
+		<div id = "svgcontainer"></div>
+      
+	  <button id="myBtn">Animation</button>
+   
+   <div id="part2"></div>
+  
+   
+   <h3>Part 3: Demonstrate visualization of data</h3>
+   
+   <div>
+   The Most Spoken Languages in the World
+   </div>
+   </br>
+   
+   
+   <!-- Here is some helper code. You will change it based on your visualization. You may use a different input mechanism, such as radio buttons.  -->
+	Select a year for a visualization &nbsp
+	<select onchange="createPie()" id="yearSelection">
+				<option name="choice0" value=""></option>
+				<option name="choice1" value="2018">2018</option>
+				<option name="choice2" value="2019">2019</option>
+				<option name="choice3" value="2020">2020</option>
+				<option name="choice4" value="2021">2021</option>
+	</select>
+	
+	<br>
+	
+   
+   <div id="part3"></div>
+   
+<!-- ****************************************
+	       begin D3 script   
+	  -->
+	  
+      <script>  
+	  
+	  // ============= Part 1 =========
+	  //part1a, modifying DOM to add text and style it with color.
+	  d3.select("#part1a").append("span").text(" Carlos Corral-Williams");
+	  d3.select("#part1a").style('color', "rgb(600,200,870)");
+	  
+	  //part1b add the text "hello world" in some color, 30px size.
+	  d3.select("#part1b").append("span").text(" Hello World");
+	  d3.select("#part1b").style('color', 
+	  "rgb(0,700,0)").style('font-size', '30px');
+	  
+	  //part1c: add text list of your classes that have
+	  //been stored in a JS array
+	  //called myClasses, must be listed using <ul>
+	  d3.select("p1").style('color',"rgb(0,500,500)").style('font-size', '20px');
+	  var myClasses = ["MAT117: College Algebra", "CPI101: Intro to Informatics",
+	  "ABS102: Intro to Cultural Anthropology", "ASU101", 
+	  "ENG105: Adv. First-Year Composition", "CSE 110: Principles of Programming"];
+	  d3.select("ul.styled").style('color', "rgb(100,400,200)").style('font-size','15px');
+	  d3.select("#part1c").selectAll("ul")
+		.data(myClasses)
+		.enter()
+			.append("ul")
+			.text(function(d) {return d });
+		
+	  // ============= Part 2 =========
+	  document.getElementById("myBtn").addEventListener("click", d3animation);
+	  // specifying the size of the svg image within the "svgcontainer"
+	  var width = 500;
+	  var height = 500;
+	  
+	  // select HTML DOM elements by ID 
+	  var svg = d3.select("#svgcontainer")
+				  .append("svg")
+				  .attr("width", width)
+				  .attr("height", height);
+	  // Creating the border of the svg canvas
+	  svg.append("rect")
+		 .attr("x",0)
+		 .attr("y",0)
+		 .attr("width",width)
+		 .attr("height", height)
+		 .style("fill", "black")
+		 .style("stroke-width", "3.5")
+		 .style("stroke", "rgb(0,0,0)");
+		//appending more shapes
+		var barwidth = 200;
+		var barheight = 50;
+		
+		svg.append("rect")
+			.attr("x",0)
+			.attr("y",0)
+			.attr("width", barwidth)
+			.attr("height", barheight)
+			.attr("class","foo")
+			.style("fill", "purple");
+			
+		svg.append("rect")
+			.attr("x",0)
+			.attr("y",0)
+			.attr("width", barwidth*.5)
+			.attr("height", barheight*.5)
+			.attr("class","foo")
+			.style("fill", "blue");
+			
+		svg.append("circle")
+			.attr("cx", width/2.0)
+			.attr("cy", height/2.0)
+			.attr("r", width*0.1)
+			.attr("fill", "green");
+			
+		svg.append("circle")
+			.attr("cx", width/2.0)
+			.attr("cy",height/2.0)
+			.attr("r",width*.1)
+			.attr("fill", "yellow");
+			
+		svg.append("circle")
+			.attr("class","foo")
+			.attr("cx", width/3.0)
+			.attr("cy", height/3.0)
+			.attr("r", width*.3)
+			.attr("fill", "red")
+			.attr("transform", "translate(0,50)");
+			
+	var group = svg.append("g")
+		.attr("transform", "translate(0,100) rotate(35)");
+		
+		var rect = group.append("rect")
+		   .attr("x", 0)
+		   .attr("y", 0)
+		   .attr("width", barwidth)
+		   .attr("height", barheight)
+		   .attr("class", "foo")
+		   .style("fill", "yellow");
+		   
+		var circle = group.append("circle")
+		   .attr("cx", width/2.0)
+            .attr("cy", height/2.0)
+            .attr("r", width*0.1)
+            .attr("fill", "yellow");
+			
+		var t = d3.transition()
+				.duration(2000);
+			
+			  
+			d3.select("body")
+			  .transition(t)
+			  .style("background-color", "teal");
+			  
+		var delayTime = 1000;
+		
+			d3.select("body").transition()
+			.delay(delayTime)
+			.duration(5000)
+			.style("background-color", "orange");
+			
+		d3.select("body").transition()
+		  .delay(delayTime/2)
+		  .duration(2000)
+		  .style("background-color", "rgb(0,150,100)");
+		  
+		
+		function d3animation()
+		{
+			d3.select("g").transition()
+			  .delay(1000)
+			  .duration(5000)
+			  .attr("transform","translate(125,0)");
+		d3.selectAll(".foo").transition()
+			.delay(delayTime)
+			.duration(5000)
+			.attr("style",("fill","black"));
+		}
+			
+		 
+	  // ============= Part 3 =========
+	  // Pie Charts
+	  function createPie() {
+	  var year = document.getElementById("yearSelection").value;
+	  var dataset;
+	  if(year =="2018")
+		{
+			dataset =
+					[{ "Language": "English", "population": 1208238339},
+					 { "Language": "Chinese Mandarin", "population": 1105796167 },
+					 { "Language": "Hindi", "population": 623110851 },
+					 { "Language": "Spanish", "population": 532794272 },
+					 { "Language": "French", "population": 275404539 }
+					 ];
+					 
+		}
+	 if(year=="2019")
+		{
+		 dataset = [{ "Language": "English", "population": 1250283056},
+					 { "Language": "Chinese Mandarin", "population": 1115982096},
+					 { "Language": "Hindi", "population": 633489519 },
+					 { "Language": "Spanish", "population": 536875398 },
+					 { "Language": "French", "population": 277702934 }
+					 ];
+		}
+	  if(year=="2020")
+		{
+		
+		 dataset=[{ "Language": "English", "population": 1297960937},
+					 { "Language": "Chinese Mandarin", "population": 1127532739 },
+					 { "Language": "Hindi", "population": 645258724 },
+					 { "Language": "Spanish", "population": 541503314},
+					 { "Language": "French", "population": 280309268 }
+					 ];
+		}
+		if(year=="2021")
+		{
+			 dataset = [{ "Language": "English", "population": 1300569350 },
+						{ "Language": "Chinese Mandarin", "population": 1128164664},
+						{ "Language": "Hindi", "population": 645902607},
+						{ "Language": "Spanish", "population": 541756503},
+					 { "Language": "French", "population": 280451858}
+					 ];
+		} 
+		
+		console.log("dataset = ",dataset);
+		
+		// need to remove exiting
+		d3.select("#part3")
+        .selectAll("*")
+        .remove();
+		
+	  var piewidth = 500;
+	  var pieheight = 500;
+	  var pieradius = Math.min(piewidth, pieheight)/2;
+	  var outerRadius = pieradius - 10;
+	  
+	  // you should select part 3
+	  var pieChartContainer = d3.select("#part3")
+		 .append("svg")
+		 .attr("width", piewidth)
+		 .attr("height", pieheight);
+		 
+	
+	
+	  var pie = d3.pie()
+				  .value(function(d) {return d.population});
+	  var arc = d3.arc()
+			.outerRadius(outerRadius)
+			.innerRadius(0);
+	  var color = d3.scaleOrdinal(d3.schemeCategory10);
+	  
+	  var arcs = pieChartContainer.selectAll("g.arc")
+				.data(pie(dataset))
+				.enter()
+					.append("g")
+					.attr("class", "arc")
+					.attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
+					
+		arcs.append("path")
+			.attr("fill", function(d, i) {return color(i);})
+			.attr("d", arc);
+			
+			
+		var pieTextSize = 15;
+		arcs.append("text")
+			.attr("transform", function(d) {return "translate(" + arc.centroid(d) + ")";})
+			.attr("text-anchor", "middle")
+			.style("font-size", pieTextSize + "px")
+			.text(function(d,i) {
+			console.log("d=",d);
+			console.log("d.data.Language=",d.data.Language);
+			return d.data.Language; });	
+							// you needed Language instead of state
+		}
+		// you had a typo with "arc.centroid" -- best to copy/paste instead of typing -- in case that is what you did
+	
+		
+	  // tip: you will need the year selected
+	  // var year = document.getElementById("yearSelection").value;
+	  
+	  </script>  
+	  
+       
+   </body>
+</html>
